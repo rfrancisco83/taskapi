@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Task implements Serializable{
 	
@@ -32,6 +34,7 @@ public class Task implements Serializable{
 	private boolean completed = false;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	 @JsonBackReference
 	private TaskList taskList;
 	
 	public Long getId() {

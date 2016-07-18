@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class TaskList implements Serializable{
 
@@ -28,9 +31,11 @@ public class TaskList implements Serializable{
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
 	private User user;
 	
 	@OneToMany(mappedBy = "taskList")
+	@JsonManagedReference
 	private Collection<Task> tasks;
 
 	public Long getId() {

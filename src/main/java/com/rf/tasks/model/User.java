@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "taskuser")
 public class User implements Serializable {
@@ -36,6 +38,7 @@ public class User implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference
 	private Collection<TaskList> taskList;
 	
 	public Long getId() {
