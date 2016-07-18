@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -11,14 +12,6 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class TaskList implements Serializable{
-	
-	public Collection<Task> getTask() {
-		return task;
-	}
-
-	public void setTask(Collection<Task> task) {
-		this.task = task;
-	}
 
 	protected TaskList(){}
 
@@ -26,7 +19,7 @@ public class TaskList implements Serializable{
 	public TaskList(Long id, User user, Collection<Task> task) {
 		this.id = id;
 		this.user = user;
-		this.task = task;
+		this.tasks = task;
 	}
 
 
@@ -34,11 +27,11 @@ public class TaskList implements Serializable{
     @GeneratedValue
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 	
-	@OneToMany
-	private Collection<Task> task;
+	@OneToMany(mappedBy = "taskList")
+	private Collection<Task> tasks;
 
 	public Long getId() {
 		return id;
@@ -54,7 +47,25 @@ public class TaskList implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+		if (!user.getTaskList().contains(this)) {
+			user.getTaskList().add(this);
+        }
 	}
+	
+	public Collection<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTask(Collection<Task> tasks) {
+		this.tasks = tasks;
+	}
+	
+	 public void addTask(Task task) {
+	        this.tasks.add(task);
+	        if (task.getTaskList() != this) {
+	            task.setTaskList(this);
+	        }
+	    }
 	
 
 }

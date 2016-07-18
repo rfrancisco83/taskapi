@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,7 +31,7 @@ public class Task implements Serializable{
 	//defaulting value
 	private boolean completed = false;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private TaskList taskList;
 	
 	public Long getId() {
@@ -47,6 +48,9 @@ public class Task implements Serializable{
 
 	public void setTaskList(TaskList taskList) {
 		this.taskList = taskList;
+		if (!taskList.getTasks().contains(this)) { 
+			taskList.getTasks().add(this);
+        }
 	}
 
 	public String getDescription() {

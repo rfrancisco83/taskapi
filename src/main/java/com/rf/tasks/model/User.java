@@ -35,7 +35,7 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "user")
 	private Collection<TaskList> taskList;
 	
 	public Long getId() {
@@ -60,6 +60,13 @@ public class User implements Serializable {
 	public void setTaskList(Collection<TaskList> taskList) {
 		this.taskList = taskList;
 	}
+	
+	 public void addTaskList(TaskList taskList) {
+	        this.taskList.add(taskList);
+	        if (taskList.getUser() != this) {
+	            taskList.setUser(this);
+	        }
+	    }
 
 	
 	
