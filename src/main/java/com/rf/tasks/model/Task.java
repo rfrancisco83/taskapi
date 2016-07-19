@@ -10,6 +10,11 @@ import javax.persistence.Id;
 @Entity
 public class Task implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected Task(){}
 	
 	public Task(Long id, Long taskListId, String description, boolean completed) {
@@ -18,6 +23,7 @@ public class Task implements Serializable{
 		this.description = description;
 		this.completed = completed;
 	}
+	
 	@Id
     @GeneratedValue
     private Long id;

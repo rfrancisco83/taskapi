@@ -23,10 +23,8 @@ public class TaskList implements Serializable{
 	public TaskList(Long id, Long userId, Set<Task> task) {
 		this.id = id;
 		this.userId = userId;
-//		this.user = user;
 		this.tasks = task;
 	}
-
 
 	@Id
     @GeneratedValue
