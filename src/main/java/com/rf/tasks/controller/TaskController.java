@@ -17,41 +17,44 @@ import com.rf.tasks.repository.UserRepository;
 @RestController
 @RequestMapping(value = "/user")
 public class TaskController {
-	
+
 	@Autowired
 	private TaskListRepository taskListRepository;
 	@Autowired
 	private TaskRepository taskRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
-//	@RequestMapping("/")
-//	public DefaultResponse home(){
-//		return new DefaultResponse("Task manager");
-//	}
-	
+
+	// @RequestMapping("/")
+	// public DefaultResponse home(){
+	// return new DefaultResponse("Task manager");
+	// }
+
 	@RequestMapping(value = "/{userId}/taskList", method = RequestMethod.GET)
-	public Collection<TaskList> getAllTaskListsForUser(@PathVariable Long userId){
+	public Collection<TaskList> getAllTaskListsForUser(@PathVariable Long userId) {
 		return taskListRepository.findByUserId(userId);
 	}
-	
+
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}", method = RequestMethod.GET)
-	public TaskList getTaskListForUser(@PathVariable Long userId, @PathVariable Long taskListId){
+	public TaskList getTaskListForUser(@PathVariable Long userId,
+			@PathVariable Long taskListId) {
 		return taskListRepository.findByIdAndUserId(taskListId, userId);
 	}
-	
+
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}/tasks", method = RequestMethod.GET)
-	public Collection<Task> getTasksForTaskList(@PathVariable Long userId, @PathVariable Long taskListId){
+	public Collection<Task> getTasksForTaskList(@PathVariable Long userId,
+			@PathVariable Long taskListId) {
 		return taskRepository.findByTaskListId(taskListId);
 	}
-	
+
 	@RequestMapping(value = "/{userId}/delete/taskList/{taskListId}", method = RequestMethod.POST)
-	public void deleteTaskList(@PathVariable Long userId,  @PathVariable Long taskListId){
+	public void deleteTaskList(@PathVariable Long userId,
+			@PathVariable Long taskListId) {
 		taskListRepository.delete(taskListId);
 	}
-	
+
 	@RequestMapping(value = "/{userId}/create/taskList", method = RequestMethod.POST)
-	public TaskList createTaskList(@PathVariable Long userId){
+	public TaskList createTaskList(@PathVariable Long userId) {
 		User u = userRepository.findOne(userId);
 		TaskList taskList = new TaskList(null, userId, null);
 		taskList = taskListRepository.save(taskList);
@@ -59,37 +62,37 @@ public class TaskController {
 		userRepository.save(u);
 		return taskList;
 	}
-	
+
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}/remove/task/{taskId}", method = RequestMethod.POST)
-	public Collection<Task> removeTaskFromTaskList(@PathVariable Long userId,  @PathVariable Long taskListId,
-			@PathVariable Long taskId){
+	public Collection<Task> removeTaskFromTaskList(@PathVariable Long userId,
+			@PathVariable Long taskListId, @PathVariable Long taskId) {
 		taskRepository.delete(taskId);
 		return taskRepository.findByTaskListId(taskListId);
 	}
-	
-	@RequestMapping(value = "/{userId}/taskList/{taskListId}/create/task/{description}/{completed}", 
-			method = RequestMethod.POST)
-	public Task addTask(@PathVariable Long userId, @PathVariable Long taskListId, 
-			@PathVariable String description, @PathVariable boolean completed){
+
+	@RequestMapping(value = "/{userId}/taskList/{taskListId}/create/task/{description}/{completed}", method = RequestMethod.POST)
+	public Task addTask(@PathVariable Long userId,
+			@PathVariable Long taskListId, @PathVariable String description,
+			@PathVariable boolean completed) {
 		TaskList taskList = taskListRepository.findOne(taskListId);
 		Task task = new Task(null, taskListId, description, completed);
 		task = taskRepository.save(task);
-		
+
 		taskList.addTask(task);
 		taskListRepository.save(taskList);
 		return task;
 	}
-	
-	@RequestMapping(value = "/{userId}/taskList/{taskListId}/update/task/{taskId}/{description}/{completed}", 
-			method = RequestMethod.POST)
-	public Task updateTask(@PathVariable Long userId, @PathVariable Long taskListId, @PathVariable Long taskId, 
-			@PathVariable String description, @PathVariable boolean completed){
+
+	@RequestMapping(value = "/{userId}/taskList/{taskListId}/update/task/{taskId}/{description}/{completed}", method = RequestMethod.POST)
+	public Task updateTask(@PathVariable Long userId,
+			@PathVariable Long taskListId, @PathVariable Long taskId,
+			@PathVariable String description, @PathVariable boolean completed) {
 		Task task = new Task(taskId, taskListId, description, completed);
 		return taskRepository.save(task);
 	}
-	
+
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public User getUser(@PathVariable Long userId){
+	public User getUser(@PathVariable Long userId) {
 		return userRepository.findOne(userId);
 	}
 
