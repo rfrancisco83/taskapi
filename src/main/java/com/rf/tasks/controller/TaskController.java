@@ -71,8 +71,13 @@ public class TaskController {
 			method = RequestMethod.POST)
 	public Task addTask(@PathVariable Long userId, @PathVariable Long taskListId, 
 			@PathVariable String description, @PathVariable boolean completed){
+		TaskList taskList = taskListRepository.findOne(taskListId);
 		Task task = new Task(null, taskListId, description, completed);
-		return taskRepository.save(task);
+		task = taskRepository.save(task);
+		
+		taskList.addTask(task);
+		taskListRepository.save(taskList);
+		return task;
 	}
 	
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}/update/task/{taskId}/{description}/{completed}", 
