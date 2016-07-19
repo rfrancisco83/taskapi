@@ -20,7 +20,6 @@ public class Task implements Serializable{
 	}
 	@Id
     @GeneratedValue
-//    @Column(name="ID")
     private Long id;
 	
 	@Column( nullable = false)
@@ -39,11 +38,6 @@ public class Task implements Serializable{
 	public void setTaskListId(Long taskListId){
 		this.taskListId = taskListId;
 	}
-	
-//	@ManyToOne(fetch=FetchType.LAZY)
-//	 @JsonBackReference
-//	private TaskList taskList;
-//	
 	public Long getId() {
 		return id;
 	}
@@ -51,17 +45,6 @@ public class Task implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-//	public TaskList getTaskList() {
-//		return taskList;
-//	}
-
-//	public void setTaskList(TaskList taskList) {
-//		this.taskList = taskList;
-//		if (!taskList.getTasks().contains(this)) { 
-//			taskList.getTasks().add(this);
-//        }
-//	}
 
 	public String getDescription() {
 		return description;

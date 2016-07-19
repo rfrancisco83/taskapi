@@ -32,10 +32,6 @@ public class TaskList implements Serializable{
     @GeneratedValue
 	private Long id;
 	
-//	@ManyToOne(fetch=FetchType.LAZY)
-//	@JsonBackReference
-//	private User user;
-	
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Task> tasks;
 
@@ -54,17 +50,6 @@ public class TaskList implements Serializable{
 	public void setUserId(Long userId){
 		this.userId = userId;
 	}
-
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//		if (!user.getTaskList().contains(this)) {
-//			user.getTaskList().add(this);
-//        }
-//	}
 	
 	public Set<Task> getTasks() {
 		return tasks;
@@ -76,9 +61,6 @@ public class TaskList implements Serializable{
 	
 	 public void addTask(Task task) {
         this.tasks.add(task);
-//	        if (task.getTaskList() != this) {
-//	            task.setTaskList(this);
-//	        }
     }
 	
 

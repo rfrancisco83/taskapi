@@ -65,9 +65,6 @@ public class User implements Serializable {
 	
 	public void addTaskList(TaskList taskList) {
         this.taskList.add(taskList);
-//        if (taskList.getUser() != this) {
-//            taskList.setUser(this);
-//        }
     }
 
 	
