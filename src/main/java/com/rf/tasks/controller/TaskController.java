@@ -50,7 +50,23 @@ public class TaskController {
 	@RequestMapping(value = "/{userId}/delete/taskList/{taskListId}", method = RequestMethod.POST)
 	public void deleteTaskList(@PathVariable Long userId,
 			@PathVariable Long taskListId) {
-		taskListRepository.delete(taskListId);
+		
+		//get the task list
+		TaskList taskList = taskListRepository.findOne(taskListId);
+		User u = userRepository.findOne(userId);
+		
+		//remove the task from the set.
+		taskList.getTasks().clear();
+		taskList = taskListRepository.save(taskList);
+		
+		//now remove the association to user
+		u.getTaskList().remove(taskList);
+		userRepository.save(u);
+		
+//		Collection<Task> tasks = taskRepository.findByTaskListId(taskListId);
+//		taskRepository.delete(tasks);
+		//now able to delete the list
+		taskListRepository.delete(taskList);
 	}
 
 	@RequestMapping(value = "/{userId}/create/taskList", method = RequestMethod.POST)
@@ -63,10 +79,19 @@ public class TaskController {
 		return taskList;
 	}
 
-	@RequestMapping(value = "/{userId}/taskList/{taskListId}/remove/task/{taskId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{userId}/taskList/{taskListId}/delete/task/{taskId}", method = RequestMethod.POST)
 	public Collection<Task> removeTaskFromTaskList(@PathVariable Long userId,
 			@PathVariable Long taskListId, @PathVariable Long taskId) {
-		taskRepository.delete(taskId);
+		//get the task list and task
+		TaskList taskList = taskListRepository.findOne(taskListId);
+		Task task = taskRepository.findOne(taskId);
+		
+		//remove the task from the set.
+		taskList.getTasks().remove(task);
+		taskListRepository.save(taskList);
+		
+		//remove the tasks and return a new task list
+		taskRepository.delete(task);
 		return taskRepository.findByTaskListId(taskListId);
 	}
 
