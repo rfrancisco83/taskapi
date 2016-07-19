@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon Jul 18 16:31:35 CDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0155-ffeb-dc66-00000cd81f38 
+Mon Jul 18 21:58:28 CDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0156-0117-202e-00000d102e60 
 on database directory memory:C:\Development\tools\workspaces\tasks\taskapi\testdb with class loader org.springframework.boot.loader.LaunchedURLClassLoader@5caf905d 
 Loaded from jar:file:/C:/Development/tools/workspaces/tasks/taskapi/target/taskapi-0.0.1-SNAPSHOT.jar!/lib/derby-10.12.1.1.jar!/
 java.vendor=Oracle Corporation

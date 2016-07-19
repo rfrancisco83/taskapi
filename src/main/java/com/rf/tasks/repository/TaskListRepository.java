@@ -10,6 +10,8 @@ public interface TaskListRepository extends CrudRepository<TaskList, Long> {
 	
 	Collection<TaskList> findByUserId(Long id);
 	
+	TaskList findByIdAndUserId(Long id, Long userId);
+	
 //	TaskList findByTaskListId(Long id);
 
 }

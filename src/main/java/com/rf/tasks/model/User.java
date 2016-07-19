@@ -2,21 +2,21 @@ package com.rf.tasks.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 @Table(name = "taskuser")
 public class User implements Serializable {
 	
-	public User(Long id, String name, Collection<TaskList> taskList) {
+	public User(Long id, String name, Set<TaskList> taskList) {
 		this.id = id;
 		this.name = name;
 		this.taskList = taskList;
@@ -37,9 +37,8 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany(mappedBy = "user")
-	@JsonManagedReference
-	private Collection<TaskList> taskList;
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<TaskList> taskList;
 	
 	public Long getId() {
 		return id;
@@ -60,16 +59,16 @@ public class User implements Serializable {
 		return taskList;
 	}
 
-	public void setTaskList(Collection<TaskList> taskList) {
+	public void setTaskList(Set<TaskList> taskList) {
 		this.taskList = taskList;
 	}
 	
-	 public void addTaskList(TaskList taskList) {
-	        this.taskList.add(taskList);
-	        if (taskList.getUser() != this) {
-	            taskList.setUser(this);
-	        }
-	    }
+	public void addTaskList(TaskList taskList) {
+        this.taskList.add(taskList);
+//        if (taskList.getUser() != this) {
+//            taskList.setUser(this);
+//        }
+    }
 
 	
 	

@@ -37,7 +37,7 @@ public class TaskController {
 	
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}", method = RequestMethod.GET)
 	public TaskList getTaskListForUser(@PathVariable Long userId, @PathVariable Long taskListId){
-		return taskListRepository.findOne(taskListId);
+		return taskListRepository.findByIdAndUserId(taskListId, userId);
 	}
 	
 	@RequestMapping(value = "/{userId}/taskList/{taskListId}/tasks", method = RequestMethod.GET)
@@ -53,7 +53,7 @@ public class TaskController {
 	@RequestMapping(value = "/{userId}/create/taskList", method = RequestMethod.POST)
 	public TaskList createTaskList(@PathVariable Long userId){
 		User u = userRepository.findOne(userId);
-		TaskList taskList = new TaskList(null, u, null);
+		TaskList taskList = new TaskList(null, userId, null);
 		taskList = taskListRepository.save(taskList);
 		u.addTaskList(taskList);
 		userRepository.save(u);
@@ -71,7 +71,7 @@ public class TaskController {
 			method = RequestMethod.POST)
 	public Task addTask(@PathVariable Long userId, @PathVariable Long taskListId, 
 			@PathVariable String description, @PathVariable boolean completed){
-		Task task = new Task(null, description, completed);
+		Task task = new Task(null, taskListId, description, completed);
 		return taskRepository.save(task);
 	}
 	
@@ -79,15 +79,9 @@ public class TaskController {
 			method = RequestMethod.POST)
 	public Task updateTask(@PathVariable Long userId, @PathVariable Long taskListId, @PathVariable Long taskId, 
 			@PathVariable String description, @PathVariable boolean completed){
-		Task task = new Task(taskId, description, completed);
+		Task task = new Task(taskId, taskListId, description, completed);
 		return taskRepository.save(task);
 	}
-	
-//	@RequestMapping(value = "/add/{name}", method = RequestMethod.POST)
-//	public User addUser(@PathVariable String name){
-//		User u = new User(null, name, null);
-//		return userRepository.save(u);
-//	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public User getUser(@PathVariable Long userId){

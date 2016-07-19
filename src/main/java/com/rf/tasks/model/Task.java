@@ -4,20 +4,17 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class Task implements Serializable{
 	
 	protected Task(){}
 	
-	public Task(Long id, String description, boolean completed) {
+	public Task(Long id, Long taskListId, String description, boolean completed) {
 		this.id = id;
+		this.taskListId = taskListId;
 		this.description = description;
 		this.completed = completed;
 	}
@@ -33,10 +30,20 @@ public class Task implements Serializable{
 	//defaulting value
 	private boolean completed = false;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	 @JsonBackReference
-	private TaskList taskList;
+	private Long taskListId;
 	
+	public Long getTaskListId(){
+		return taskListId;
+	}
+	
+	public void setTaskListId(Long taskListId){
+		this.taskListId = taskListId;
+	}
+	
+//	@ManyToOne(fetch=FetchType.LAZY)
+//	 @JsonBackReference
+//	private TaskList taskList;
+//	
 	public Long getId() {
 		return id;
 	}
@@ -45,16 +52,16 @@ public class Task implements Serializable{
 		this.id = id;
 	}
 
-	public TaskList getTaskList() {
-		return taskList;
-	}
+//	public TaskList getTaskList() {
+//		return taskList;
+//	}
 
-	public void setTaskList(TaskList taskList) {
-		this.taskList = taskList;
-		if (!taskList.getTasks().contains(this)) { 
-			taskList.getTasks().add(this);
-        }
-	}
+//	public void setTaskList(TaskList taskList) {
+//		this.taskList = taskList;
+//		if (!taskList.getTasks().contains(this)) { 
+//			taskList.getTasks().add(this);
+//        }
+//	}
 
 	public String getDescription() {
 		return description;
